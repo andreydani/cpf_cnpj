@@ -1,5 +1,5 @@
 import unittest
-from cpf_alfacnpj import validar_cnpj_2026 as validar_cnpj
+from cpf_alfacnpj import validar_cnpj_alfanumerico as validar_cnpj
 
 
 class TestValidarCNPJ(unittest.TestCase):

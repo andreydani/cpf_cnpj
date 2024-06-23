@@ -59,7 +59,7 @@ def validar_cnpj(cnpj: str) -> bool:
     )
 
 
-def validar_cnpj_2026(cnpj: str) -> bool:
+def validar_cnpj_alfanumerico(cnpj: str) -> bool:
     return validar_cnpj_base(
         cnpj,
         lambda cnpj: ''.join(filter(str.isalnum, cnpj[:-2])).upper() +
