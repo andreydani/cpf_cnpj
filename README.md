@@ -8,6 +8,8 @@ Biblioteca de validação de CPF e CNPJ, inclusive com suporte ao CNPJ alfanumé
 
 Veja no PyPI: https://pypi.org/project/cpf-alfacnpj/
 
+[Nota técnica com o racional da mudança](Nota Cocad 2024 05 49 CNPJ Alfanumérico.pdf)
+
 ## Instalação
 
 Você pode instalar a biblioteca via pip:
