@@ -18,8 +18,8 @@ def clean(c):
         shutil.rmtree('build')
     if os.path.exists('dist'):
         shutil.rmtree('dist')
-    if os.path.exists('cpf_cnpj.egg-info'):
-        shutil.rmtree('cpf_cnpj.egg-info')
+    if os.path.exists('cpf_alfacnpj.egg-info'):
+        shutil.rmtree('cpf_alfacnpj.egg-info')
     print("Arquivos de build removidos.")
 
 

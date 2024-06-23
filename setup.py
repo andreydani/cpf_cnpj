@@ -2,13 +2,13 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="cpf_cnpj",
+    name="cpf_alfacnpj",
     version="0.2.0",
     packages=find_packages(),
     install_requires=[],
     entry_points={
         'console_scripts': [
-            'cpf-cnpj=cpf_cnpj.main:main',
+            'cpf-alfacnpj=cpf_alfacnpj.main:main',
         ],
     },
     author="Andrey Sant'Anna",

@@ -1,5 +1,5 @@
 import unittest
-from cpf_cnpj import validar_cpf
+from cpf_alfacnpj import validar_cpf
 
 class TestValidarCPF(unittest.TestCase):
 
