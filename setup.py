@@ -14,7 +14,7 @@ setup(
     author="Andrey Sant'Anna",
     author_email="andreysantanna@gmail.com",
     description="Biblioteca de validação de CPF e CNPJ, inclusive com suporte ao CNPJ alfanumérico (2026)",
-    long_description=open('readme.md').read(),
+    long_description=open('README.md').read(),
     long_description_content_type="text/markdown",
     url="https://github.com/andreydani/cpf_cnpj",
     classifiers=[
