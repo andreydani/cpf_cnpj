@@ -1,14 +1,12 @@
 # cpf_alfacnpj
 
-Biblioteca de validação de CPF e CNPJ, inclusive com suporte ao CNPJ alfanumérico (2026).
-
-> [!CAUTION]
-> Por favor, note que o cálculo está baseado na pouca documentação fornecida até junho de 2024.
-> Ainda não foram fornecidos exemplos de CNPJs válidos para que seja possível testar completamente.
+Biblioteca de validação de CPF e CNPJ - suporta o CNPJ alfanumérico (2026).
 
 Veja no PyPI: https://pypi.org/project/cpf-alfacnpj/
 
 [Nota técnica com o racional da mudança](NotaCocad20240549CNPJAlfa.pdf)
+
+[Manual de cálculo divulgado pela RFB](https://www.gov.br/receitafederal/pt-br/centrais-de-conteudo/publicacoes/documentos-tecnicos/cnpj)
 
 ## Instalação
 
