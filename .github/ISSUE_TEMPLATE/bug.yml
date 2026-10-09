@@ -1,0 +1,34 @@
+name: Relatar um bug
+description: Algo não funciona como deveria
+labels: ["bug"]
+body:
+  - type: textarea
+    id: descricao
+    attributes:
+      label: O que aconteceu?
+      description: Descreva o problema. Não inclua CPFs ou CNPJs reais de terceiros; use documentos gerados com `cpf-alfacnpj gerar`.
+    validations:
+      required: true
+  - type: textarea
+    id: reproducao
+    attributes:
+      label: Como reproduzir
+      render: python
+      placeholder: |
+        from cpf_alfacnpj import validar_cnpj
+        validar_cnpj("...")
+    validations:
+      required: true
+  - type: textarea
+    id: esperado
+    attributes:
+      label: O que era esperado?
+    validations:
+      required: true
+  - type: input
+    id: versao
+    attributes:
+      label: Versões
+      placeholder: "cpf-alfacnpj 1.0.0, Python 3.12, Linux"
+    validations:
+      required: true
