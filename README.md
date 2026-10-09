@@ -44,13 +44,13 @@ pip install "cpf-alfacnpj[django]"
 ```python
 from cpf_alfacnpj import validar_cpf, validar_cnpj, validar_documento
 
-validar_cpf("111.444.777-35")                          # True
-validar_cpf("11144477735")                             # True (com ou sem máscara)
-validar_cnpj("12.ABC.345/01DE-35")                     # True (alfanumérico)
-validar_cnpj("04.252.011/0001-10")                     # True (numérico)
-validar_cnpj("12.ABC.345/01DE-35", alfanumerico=False) # False (exige só números)
-validar_documento("111.444.777-35")                    # True (detecta CPF ou CNPJ)
-validar_cpf(None)                                      # False, sem exceção
+validar_cpf("111.444.777-35")  # True
+validar_cpf("11144477735")  # True (com ou sem máscara)
+validar_cnpj("12.ABC.345/01DE-35")  # True (alfanumérico)
+validar_cnpj("04.252.011/0001-10")  # True (numérico)
+validar_cnpj("12.ABC.345/01DE-35", alfanumerico=False)  # False (exige só números)
+validar_documento("111.444.777-35")  # True (detecta CPF ou CNPJ)
+validar_cpf(None)  # False, sem exceção
 ```
 
 A máscara pode usar `.`, `-`, `/` e espaços, e letras minúsculas são aceitas. Qualquer outro
@@ -61,10 +61,10 @@ caractere torna o documento inválido.
 ```python
 from cpf_alfacnpj import formatar_cnpj, formatar_cpf, limpar_cnpj, tipo_documento
 
-limpar_cnpj("12.abc.345/01de-35")   # '12ABC34501DE35'
-formatar_cpf("11144477735")         # '111.444.777-35'
-formatar_cnpj("12abc34501de35")     # '12.ABC.345/01DE-35'
-tipo_documento("111.444.777-35")    # 'CPF'
+limpar_cnpj("12.abc.345/01de-35")  # '12ABC34501DE35'
+formatar_cpf("11144477735")  # '111.444.777-35'
+formatar_cnpj("12abc34501de35")  # '12.ABC.345/01DE-35'
+tipo_documento("111.444.777-35")  # 'CPF'
 ```
 
 `limpar_*` e `formatar_*` lançam `ValueError` quando a entrada é inválida. `limpar_*` só confere o
@@ -75,8 +75,8 @@ formato; `formatar_*` também confere os dígitos verificadores.
 ```python
 from cpf_alfacnpj import calcular_dv_cnpj, calcular_dv_cpf
 
-calcular_dv_cpf("111444777")       # '35'
-calcular_dv_cnpj("12ABC34501DE")   # '35'
+calcular_dv_cpf("111444777")  # '35'
+calcular_dv_cnpj("12ABC34501DE")  # '35'
 ```
 
 ### Gerar documentos para testes
@@ -84,11 +84,11 @@ calcular_dv_cnpj("12ABC34501DE")   # '35'
 ```python
 from cpf_alfacnpj import gerar_cnpj, gerar_cpf
 
-gerar_cpf()                                  # '52998224725'
-gerar_cpf(formatado=True)                    # '529.982.247-25'
-gerar_cnpj()                                 # 'Q0Z7AH9E000169' (alfanumérico)
-gerar_cnpj(alfanumerico=False, filial=2)     # '41837562000252'
-gerar_cnpj(formatado=True)                   # '41.B8Y.EHE/0001-85'
+gerar_cpf()  # '52998224725'
+gerar_cpf(formatado=True)  # '529.982.247-25'
+gerar_cnpj()  # 'Q0Z7AH9E000169' (alfanumérico)
+gerar_cnpj(alfanumerico=False, filial=2)  # '41837562000252'
+gerar_cnpj(formatado=True)  # '41.B8Y.EHE/0001-85'
 ```
 
 Os números são aleatórios e servem para massa de testes; não correspondem, necessariamente, a
@@ -119,9 +119,11 @@ o que facilita o uso em scripts. Também funciona como `python -m cpf_alfacnpj`.
 from pydantic import BaseModel
 from cpf_alfacnpj.contrib.pydantic import CNPJ, CPF
 
+
 class Cliente(BaseModel):
     cpf: CPF
-    cnpj_empresa: CNPJ             # numérico ou alfanumérico
+    cnpj_empresa: CNPJ  # numérico ou alfanumérico
+
 
 Cliente(cpf="111.444.777-35", cnpj_empresa="12.abc.345/01de-35")
 # Cliente(cpf='11144477735', cnpj_empresa='12ABC34501DE35')
@@ -137,12 +139,14 @@ from django import forms
 from django.db import models
 from cpf_alfacnpj.contrib.django import CNPJField, CNPJValidator, CPFField, validar_cpf_django
 
+
 class Empresa(models.Model):
     cnpj = models.CharField(max_length=18, validators=[CNPJValidator()])
     cpf_responsavel = models.CharField(max_length=14, validators=[validar_cpf_django])
 
+
 class EmpresaForm(forms.Form):
-    cnpj = CNPJField()                    # devolve '12ABC34501DE35'
+    cnpj = CNPJField()  # devolve '12ABC34501DE35'
     cpf_responsavel = CPFField()
     cnpj_antigo = CNPJField(alfanumerico=False, required=False)
 ```
@@ -209,10 +213,10 @@ a CLI and optional Pydantic v2 and Django integrations.
 ```python
 from cpf_alfacnpj import validar_cnpj, validar_cpf, formatar_cnpj, gerar_cnpj
 
-validar_cnpj("12.ABC.345/01DE-35")   # True
-validar_cpf("111.444.777-35")        # True
-formatar_cnpj("12abc34501de35")      # '12.ABC.345/01DE-35'
-gerar_cnpj()                         # random valid alphanumeric CNPJ for tests
+validar_cnpj("12.ABC.345/01DE-35")  # True
+validar_cpf("111.444.777-35")  # True
+formatar_cnpj("12abc34501de35")  # '12.ABC.345/01DE-35'
+gerar_cnpj()  # random valid alphanumeric CNPJ for tests
 ```
 
 ## Licença
