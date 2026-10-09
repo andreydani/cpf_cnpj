@@ -15,7 +15,7 @@ class TestValidarCNPJ(unittest.TestCase):
     def test_cnpj_com_letras_valido(self):
         self.assertTrue(validar_cnpj("AB.C4A.678/0001-60"))  # Exemplo com letras válidas
         self.assertTrue(validar_cnpj("12.34A.678/0001-00"))  # Exemplo com letras válidas
-        self.assertTrue(validar_cnpj("12.34A.678/0001-00"))  # Exemplo com letras válidas
+        self.assertTrue(validar_cnpj("12.ABC.345/01DE-35"))  # Exemplo oficial da RFB
 
     def test_cnpj_com_letras_invalido(self):
         self.assertFalse(validar_cnpj("12.34A.678/0001-9Z"))  # Exemplo com letras inválidas
