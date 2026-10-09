@@ -1,70 +1,40 @@
-from invoke import task
-import os
+"""Atalhos de desenvolvimento (``pip install -e ".[dev]"`` e depois ``invoke --list``)."""
+
 import shutil
-import venv
 
-
-if os.name == 'nt':
-    path = '.venv\\Scripts'
-else:
-    path = '.venv/bin'
-path = os.path.join(os.path.split(__file__)[0], path)
+from invoke import task
 
 
 @task
 def clean(c):
-    """Remove arquivos gerados durante a build anterior"""
-    if os.path.exists('build'):
-        shutil.rmtree('build')
-    if os.path.exists('dist'):
-        shutil.rmtree('dist')
-    if os.path.exists('cpf_alfacnpj.egg-info'):
-        shutil.rmtree('cpf_alfacnpj.egg-info')
+    """Remove arquivos gerados pela build anterior"""
+    for pasta in ("build", "dist", ".pytest_cache", ".mypy_cache", ".ruff_cache", "htmlcov"):
+        shutil.rmtree(pasta, ignore_errors=True)
     print("Arquivos de build removidos.")
 
 
 @task
-def build(c):
-    """Constrói os pacotes da biblioteca"""
-    print(f"{path}/python setup.py sdist bdist_wheel")
-    c.run(f"{path}/python setup.py sdist bdist_wheel")
-    print("Pacotes construídos.")
-
-
-@task
-def upload(c):
-    """Faz upload dos pacotes para o PyPI"""
-    c.run(f"twine upload dist/* --repository-url https://upload.pypi.org/legacy/")
-    print("Pacotes enviados para o PyPI.")
+def lint(c):
+    """Roda ruff (lint e formatação) e mypy"""
+    c.run("ruff check .")
+    c.run("ruff format --check .")
+    c.run("mypy")
 
 
 @task
 def test(c):
-    """Executa os testes"""
-    c.run(f"{path}/pytest tests")
-    print("Testes executados.")
+    """Executa os testes com cobertura"""
+    c.run("pytest --cov")
 
 
-@task
-def dist(c):
-    """Executa todas as tarefas: clean, build, test e upload"""
-    clean(c)
-    build(c)
-    test(c)
-    upload(c)
+@task(pre=[clean])
+def build(c):
+    """Constrói o sdist e o wheel e confere os metadados"""
+    c.run("python -m build")
+    c.run("twine check --strict dist/*")
 
 
-@task
-def create_virtualenv(c):
-    """Cria um ambiente virtual e instala as dependências"""
-    if os.path.exists('env'):
-        shutil.rmtree('env')
-    venv.create('env', with_pip=True)
-    c.run(f"{path}/pip install -r requirements_dev.txt")
-    print("Ambiente virtual criado e dependências instaladas.")
-
-
-@task(pre=[create_virtualenv])
-def setup(c):
-    """Configura o ambiente de desenvolvimento"""
-    print("Ambiente de desenvolvimento configurado.")
+@task(pre=[lint, test, build])
+def check(c):
+    """Roda tudo o que o CI roda"""
+    print("Tudo certo.")

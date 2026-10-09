@@ -1,0 +1,19 @@
+name: Sugerir uma funcionalidade
+description: Uma ideia para melhorar a biblioteca
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problema
+    attributes:
+      label: Qual problema você quer resolver?
+    validations:
+      required: true
+  - type: textarea
+    id: proposta
+    attributes:
+      label: Como você imagina a solução?
+      description: Se puder, mostre como seria a chamada da API.
+  - type: textarea
+    id: alternativas
+    attributes:
+      label: Alternativas consideradas
