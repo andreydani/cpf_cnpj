@@ -3,12 +3,12 @@ from setuptools import setup, find_packages
 
 setup(
     name="cpf_alfacnpj",
-    version="0.3.0",
+    version="1.0.0",
     packages=find_packages(exclude=["tests", "tests.*"]),
     install_requires=[],
     entry_points={
         'console_scripts': [
-            'cpf-alfacnpj=cpf_alfacnpj.main:main',
+            'cpf-alfacnpj=cpf_alfacnpj.cli:main',
         ],
     },
     author="Andrey Sant'Anna",
@@ -22,5 +22,5 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires='>=3.6',
+    python_requires='>=3.9',
 )
