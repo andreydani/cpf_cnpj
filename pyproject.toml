@@ -1,0 +1,123 @@
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cpf-alfacnpj"
+dynamic = ["version"]
+description = "Validação, formatação e geração de CPF e CNPJ, com suporte ao CNPJ alfanumérico da Receita Federal (2026)"
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Andrey Sant'Anna", email = "andreysantanna@gmail.com" }]
+keywords = [
+    "cpf",
+    "cnpj",
+    "cnpj alfanumérico",
+    "cnpj alfanumerico",
+    "validação",
+    "validacao",
+    "receita federal",
+    "brasil",
+    "documentos",
+    "pydantic",
+    "django",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Natural Language :: Portuguese (Brazilian)",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Framework :: Django",
+    "Framework :: Pydantic :: 2",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+dependencies = []
+
+[project.optional-dependencies]
+pydantic = ["pydantic>=2"]
+django = ["django>=4.2"]
+dev = [
+    "build",
+    "hypothesis",
+    "invoke",
+    "mypy",
+    "pre-commit",
+    "pytest",
+    "pytest-cov",
+    "ruff",
+    "twine",
+]
+
+[project.urls]
+Homepage = "https://github.com/andreydani/cpf_cnpj"
+Source = "https://github.com/andreydani/cpf_cnpj"
+Issues = "https://github.com/andreydani/cpf_cnpj/issues"
+Changelog = "https://github.com/andreydani/cpf_cnpj/blob/main/CHANGELOG.md"
+PyPI = "https://pypi.org/project/cpf-alfacnpj/"
+
+[project.scripts]
+cpf-alfacnpj = "cpf_alfacnpj.cli:main"
+
+[tool.hatch.version]
+path = "cpf_alfacnpj/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["cpf_alfacnpj"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "cpf_alfacnpj",
+    "tests",
+    "conftest.py",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+]
+
+[tool.pytest.ini_options]
+addopts = ["--doctest-modules", "--strict-markers"]
+testpaths = ["cpf_alfacnpj", "tests"]
+
+[tool.coverage.run]
+source = ["cpf_alfacnpj"]
+omit = ["cpf_alfacnpj/contrib/*", "cpf_alfacnpj/__main__.py"]
+
+[tool.coverage.report]
+fail_under = 100
+show_missing = true
+
+[tool.ruff]
+line-length = 110
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF"]
+
+[tool.ruff.lint.per-file-ignores]
+# Os testes usam de propósito caracteres Unicode parecidos com dígitos.
+"tests/*" = ["RUF001", "E402"]
+
+[tool.mypy]
+strict = true
+files = ["cpf_alfacnpj"]
+
+[[tool.mypy.overrides]]
+module = ["django", "django.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["cpf_alfacnpj.contrib.django"]
+disallow_subclassing_any = false
+disallow_untyped_decorators = false

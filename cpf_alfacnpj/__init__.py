@@ -2,16 +2,16 @@
 
 __version__ = "1.0.0"
 
-from .cnpj import (  # noqa: E402
+from .cnpj import (
     calcular_dv_cnpj,
     formatar_cnpj,
     limpar_cnpj,
     validar_cnpj,
     validar_cnpj_alfanumerico,
 )
-from .cpf import calcular_dv_cpf, formatar_cpf, limpar_cpf, validar_cpf  # noqa: E402
-from .documento import tipo_documento, validar_documento  # noqa: E402
-from .gerador import gerar_cnpj, gerar_cpf  # noqa: E402
+from .cpf import calcular_dv_cpf, formatar_cpf, limpar_cpf, validar_cpf
+from .documento import tipo_documento, validar_documento
+from .gerador import gerar_cnpj, gerar_cpf
 
 __all__ = [
     "__version__",

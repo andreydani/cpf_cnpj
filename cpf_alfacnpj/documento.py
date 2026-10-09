@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Literal, Optional
+from typing import Literal
 
 from ._normalizacao import normalizar
 from .cnpj import validar_cnpj
@@ -11,7 +11,7 @@ from .cpf import validar_cpf
 TipoDocumento = Literal["CPF", "CNPJ"]
 
 
-def tipo_documento(valor: object) -> Optional[TipoDocumento]:
+def tipo_documento(valor: object) -> TipoDocumento | None:
     """
     Identifica o tipo do documento pelo tamanho, depois de remover a máscara.
 

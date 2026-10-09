@@ -1,47 +1,56 @@
-
-name: Publish to PyPI
+name: Publicar no PyPI
 
 on:
   release:
     types: [published]
-  workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
   build:
+    name: Build e testes
     runs-on: ubuntu-latest
-
     steps:
-    - name: Check out repository
-      uses: actions/checkout@v2
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - name: Instalar dependências
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev,pydantic,django]"
+      - name: Conferir a versão da tag
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          VERSAO=$(python -c "import cpf_alfacnpj; print(cpf_alfacnpj.__version__)")
+          if [ "${TAG#v}" != "$VERSAO" ]; then
+            echo "A tag $TAG não corresponde a __version__ = $VERSAO" && exit 1
+          fi
+      - name: Testes
+        run: pytest --cov
+      - name: Build
+        run: |
+          python -m build
+          twine check --strict dist/*
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
 
-    - name: Set up Python
-      uses: actions/setup-python@v3
-      with:
-        python-version: '3.x'
-
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements_dev.txt
-
-    - name: Run tests
-      run: |
-        pytest tests
-
-    - name: Build package
-      run: |
-        python setup.py sdist bdist_wheel
-
-    - name: Lint code
-      run: |
-        flake8 cpf_alfacnpj
-
-    - name: Publish package
-      uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
-      with:
-        user: __token__
-        password: ${{ secrets.PYPI_API_TOKEN }}
-
+  publicar:
+    name: Publicar (Trusted Publishing)
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/project/cpf-alfacnpj/
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1

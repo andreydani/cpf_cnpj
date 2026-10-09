@@ -3,13 +3,12 @@
 from __future__ import annotations
 
 import re
-from typing import Optional
 
 # Únicos caracteres de máscara aceitos: ponto, hífen, barra e espaços.
 _SEPARADORES = re.compile(r"[.\-/\s]")
 
 
-def normalizar(valor: object) -> Optional[str]:
+def normalizar(valor: object) -> str | None:
     """
     Remove a máscara e converte para maiúsculas.
 

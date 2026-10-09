@@ -2,10 +2,10 @@ import pytest
 
 pytest.importorskip("django")
 
-from django import forms  # noqa: E402
-from django.core.exceptions import ValidationError  # noqa: E402
+from django import forms
+from django.core.exceptions import ValidationError
 
-from cpf_alfacnpj.contrib.django import (  # noqa: E402
+from cpf_alfacnpj.contrib.django import (
     CNPJField,
     CNPJValidator,
     CPFField,
@@ -43,7 +43,7 @@ def test_mensagem_e_code_customizados():
 
 
 def test_deconstruct_para_migrations():
-    caminho, args, kwargs = CNPJValidator(alfanumerico=False).deconstruct()
+    caminho, _args, kwargs = CNPJValidator(alfanumerico=False).deconstruct()
     assert caminho == "cpf_alfacnpj.contrib.django.CNPJValidator"
     assert kwargs == {"alfanumerico": False}
     assert CNPJValidator(**kwargs) == CNPJValidator(alfanumerico=False)

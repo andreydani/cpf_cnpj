@@ -22,12 +22,15 @@ Em forms::
 
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Any, ClassVar
 
-from django import forms
-from django.core.exceptions import ValidationError
-from django.utils.deconstruct import deconstructible
-from django.utils.translation import gettext_lazy as _
+try:
+    from django import forms
+    from django.core.exceptions import ValidationError
+    from django.utils.deconstruct import deconstructible
+    from django.utils.translation import gettext_lazy as _
+except ImportError as erro:  # pragma: no cover
+    raise ImportError('Esta integração requer o Django: pip install "cpf-alfacnpj[django]"') from erro
 
 from ..cnpj import limpar_cnpj, validar_cnpj
 from ..cpf import limpar_cpf, validar_cpf
@@ -49,7 +52,7 @@ class CPFValidator:
     message = _("CPF inválido.")
     code = "cpf_invalido"
 
-    def __init__(self, message: Optional[str] = None, code: Optional[str] = None) -> None:
+    def __init__(self, message: str | None = None, code: str | None = None) -> None:
         if message is not None:
             self.message = message
         if code is not None:
@@ -60,11 +63,7 @@ class CPFValidator:
             raise ValidationError(self.message, code=self.code, params={"value": value})
 
     def __eq__(self, other: object) -> bool:
-        return (
-            isinstance(other, CPFValidator)
-            and self.message == other.message
-            and self.code == other.code
-        )
+        return isinstance(other, CPFValidator) and self.message == other.message and self.code == other.code
 
     def __hash__(self) -> int:
         return hash((CPFValidator, self.code))
@@ -84,8 +83,8 @@ class CNPJValidator:
     def __init__(
         self,
         alfanumerico: bool = True,
-        message: Optional[str] = None,
-        code: Optional[str] = None,
+        message: str | None = None,
+        code: str | None = None,
     ) -> None:
         self.alfanumerico = alfanumerico
         if message is not None:
@@ -116,7 +115,7 @@ validar_cnpj_django = CNPJValidator()
 class CPFField(forms.CharField):
     """Campo de formulário que valida o CPF e devolve os 11 dígitos sem máscara."""
 
-    default_validators = [validar_cpf_django]
+    default_validators: ClassVar[list[Any]] = [validar_cpf_django]
 
     def clean(self, value: Any) -> Any:
         valor = super().clean(value)

@@ -2,7 +2,7 @@ import pytest
 
 pydantic = pytest.importorskip("pydantic")
 
-from cpf_alfacnpj.contrib.pydantic import CNPJ, CPF, CNPJNumerico  # noqa: E402
+from cpf_alfacnpj.contrib.pydantic import CNPJ, CPF, CNPJNumerico
 
 
 class Cliente(pydantic.BaseModel):

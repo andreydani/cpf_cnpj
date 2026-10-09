@@ -22,7 +22,9 @@ def test_validar_algum_invalido(capsys):
 
 def test_validar_json(capsys):
     assert main(["validar", "--json", "111.444.777-36"]) == 1
-    assert json.loads(capsys.readouterr().out) == [{"valor": "111.444.777-36", "valido": False, "tipo": "CPF"}]
+    assert json.loads(capsys.readouterr().out) == [
+        {"valor": "111.444.777-36", "valido": False, "tipo": "CPF"}
+    ]
 
 
 def test_validar_stdin(capsys, monkeypatch):

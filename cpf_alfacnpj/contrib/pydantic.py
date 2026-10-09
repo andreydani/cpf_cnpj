@@ -18,7 +18,10 @@ from __future__ import annotations
 
 from typing import Annotated
 
-from pydantic import AfterValidator
+try:
+    from pydantic import AfterValidator
+except ImportError as erro:  # pragma: no cover
+    raise ImportError('Esta integração requer o Pydantic v2: pip install "cpf-alfacnpj[pydantic]"') from erro
 
 from ..cnpj import limpar_cnpj, validar_cnpj
 from ..cpf import limpar_cpf, validar_cpf

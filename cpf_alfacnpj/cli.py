@@ -5,7 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from typing import Iterable, Iterator, Optional, Sequence
+from collections.abc import Iterable, Iterator, Sequence
 
 from . import __version__
 from .cnpj import formatar_cnpj
@@ -91,7 +91,7 @@ def _parser() -> argparse.ArgumentParser:
     return parser
 
 
-def main(argv: Optional[Sequence[str]] = None) -> int:
+def main(argv: Sequence[str] | None = None) -> int:
     args = _parser().parse_args(argv)
     codigo: int = args.func(args)
     return codigo
